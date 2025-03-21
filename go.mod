@@ -1,4 +1,4 @@
-module github.com/aitu-leetcode-bot/core
+module github.com/aitu-leetcode-site/core
 
 go 1.23
 
