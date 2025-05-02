@@ -3,13 +3,13 @@ package app
 import (
 	"context"
 	"errors"
+	"fmt"
+	appComponent "github.com/aitu-leetcode-site/core/app/component"
 	"os"
 	"os/signal"
 	"reflect"
 	"sync"
 	"syscall"
-
-	appComponent "github.com/aitu-leetcode-site/core/app/component"
 )
 
 func (a *App) addStarter(i appComponent.Starter) {
@@ -66,6 +66,7 @@ func (a *App) Start(ctx context.Context) error {
 		a.waitClose()
 		return err
 	}
+	fmt.Print("app")
 	a.runStatus.setRunning()
 	a.logger.Infof(ctx, "App started.")
 	a.waitClose()
@@ -103,6 +104,11 @@ func (a *App) gracefulShutdown() {
 		)
 		<-sc
 		a.logger.Infof(a.ctx, "recieved SIGTERM, shutting down")
+		defer func() {
+			if r := recover(); r != nil {
+				a.logger.Errorf(a.ctx, "panic: %v", r)
+			}
+		}()
 		a.chans.needCloseNotifyCh <- struct{}{}
 		close(a.chans.needCloseNotifyCh)
 		close(sc)

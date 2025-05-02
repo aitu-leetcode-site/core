@@ -13,7 +13,7 @@ type GRPCClient struct {
 func NewClient(ctx context.Context, addr string) (*GRPCClient, error) {
 	ctx, cancel := context.WithTimeout(ctx, time.Second*5)
 	defer cancel()
-	conn, err := grpc.DialContext(ctx, addr)
+	conn, err := grpc.DialContext(ctx, newGRPCAddress(addr))
 	if err != nil {
 		return nil, err
 	}

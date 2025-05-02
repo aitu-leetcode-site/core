@@ -8,7 +8,7 @@ import (
 	"github.com/aitu-leetcode-site/core/http"
 	httpconfig "github.com/aitu-leetcode-site/core/http/config"
 	"github.com/aitu-leetcode-site/core/log"
-	"github.com/aitu-leetcode-site/core/utils"
+	"github.com/aitu-leetcode-site/core/utils/port"
 	"time"
 )
 
@@ -43,7 +43,7 @@ func NewApp(appName string, cfg *config.Config) *App {
 	httpS := http.NewServer(appName, &httpconfig.Config{
 		ReadTimeout:  time.Second * 10,
 		WriteTimeout: time.Second * 10,
-		Port:         utils.Port(8080),
+		Port:         port.Port(8080),
 	})
 	app.httpServer = httpS
 	app.addComponent(httpS)
